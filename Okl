@@ -1,0 +1,93 @@
+-- FPS BOOST INSANO | 0 LAG REAL | ULTRA FEIO
+-- MOBILE / PC
+
+local Players = game:GetService("Players")
+local Lighting = game:GetService("Lighting")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+
+-- ===== QUALIDADE NO MÍNIMO ABSOLUTO =====
+settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+
+-- ===== ILUMINAÇÃO MORTA =====
+Lighting.GlobalShadows = false
+Lighting.Brightness = 0
+Lighting.FogEnd = 1e9
+Lighting.ClockTime = 14
+Lighting.Ambient = Color3.new(1,1,1)
+Lighting.OutdoorAmbient = Color3.new(1,1,1)
+
+for _,v in pairs(Lighting:GetChildren()) do
+	if v:IsA("PostEffect") then
+		v:Destroy()
+	end
+end
+
+-- ===== FUNÇÃO DE EXTERMÍNIO =====
+local function matar(obj)
+	-- PARTÍCULAS / EFEITOS
+	if obj:IsA("ParticleEmitter")
+	or obj:IsA("Trail")
+	or obj:IsA("Beam")
+	or obj:IsA("Fire")
+	or obj:IsA("Smoke")
+	or obj:IsA("Sparkles")
+	or obj:IsA("Explosion")
+	or obj:IsA("ForceField") then
+		obj:Destroy()
+
+	-- TEXTURAS
+	elseif obj:IsA("Decal") or obj:IsA("Texture") then
+		obj:Destroy()
+
+	-- PARTES
+	elseif obj:IsA("BasePart") then
+		obj.Material = Enum.Material.Plastic
+		obj.Reflectance = 0
+		obj.CastShadow = false
+	end
+end
+
+-- ===== LIMPA O MAPA INTEIRO =====
+for _,obj in pairs(workspace:GetDescendants()) do
+	matar(obj)
+end
+
+workspace.DescendantAdded:Connect(function(obj)
+	task.wait()
+	matar(obj)
+end)
+
+-- ===== ÁGUA 100% OFF =====
+local t = workspace.Terrain
+t.WaterWaveSize = 0
+t.WaterWaveSpeed = 0
+t.WaterReflectance = 0
+t.WaterTransparency = 1
+
+-- ===== PERSONAGEM ULTRA LOW =====
+local function otimizarChar(char)
+	for _,v in pairs(char:GetDescendants()) do
+		if v:IsA("BasePart") then
+			v.Material = Enum.Material.Plastic
+			v.CastShadow = false
+		elseif v:IsA("Decal") then
+			v:Destroy()
+		end
+	end
+end
+
+if player.Character then
+	otimizarChar(player.Character)
+end
+player.CharacterAdded:Connect(otimizarChar)
+
+-- ===== DESLIGA CÁLCULO DESNECESSÁRIO =====
+RunService.RenderStepped:Connect(function()
+	settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+end)
+
+-- ===== FPS CAP MAX =====
+pcall(function()
+	setfpscap(1000)
+end)
