@@ -1,3 +1,9 @@
+-- 9️⃣ FPS BOOST
+_G.WXV = _G.WXV or {}
+_G.WXV.FPS_BOOST = _G.WXV.FPS_BOOST or false
+if not _G.WXV.FPS_BOOST then return end
+
+-- Código do FPS BOOST aqui
 -- FPS BOOST INSANO | 0 LAG REAL | ULTRA FEIO
 -- MOBILE / PC
 
